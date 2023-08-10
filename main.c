@@ -15,7 +15,6 @@ int main(){
     initializeStack(folders);
     root = insertNode(root,"raiz",fdr);
     push(folders,root);
-    
     do{
         showPath(root);
         fflush(stdin);

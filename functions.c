@@ -24,19 +24,19 @@ Node* createNode(char* name, Type type){
 
 void showPath(Node *root){
     Node *aux = root;
+    Stack *temp;
     printf("-");
-    while(root && (aux->next != NULL || aux->child != NULL)){
+    do{
         if(aux->child){
-            printf("%s-",aux->name);
+            if(aux != root) printf("%s-",aux->name);
             aux = aux->child;
-        } else if(aux->type == fl){
-            printf("%s-",aux->name);
-            aux = aux->next;
-        } else if(aux->next){
+        }
+        else if(aux->next){
             aux = aux->next;
         }
-    }
+    }while(aux && (aux->child || aux->next));
     printf(">");
+    
 }
 
 Node* insertNode(Node* p, char* name, Type type){
@@ -45,16 +45,22 @@ Node* insertNode(Node* p, char* name, Type type){
     if(!p){
         return createNode(name,type);
     } else {
-        while(aux->next != NULL && aux->next->name[0] < name[0]){
+        if(p->type == fdr){
+            p->child = insertNode(p->child,name,type);
+            return p;
+        }
+        else{
+            while(aux->next != NULL && aux->next->name[0] < name[0]){
             aux = aux->next;
+            }
+            if(aux->next){
+                temp = aux->next;
+                aux->next = createNode(name,type);
+                aux->next->next = temp;
+            }
+            else {aux->next = createNode(name,type);}
         }
-        if(aux->next){
-            temp = aux->next;
-            aux->next = createNode(name,type);
-            aux->next->next = temp;
-        }
-        else {aux->next = createNode(name,type);}
-        
+            
         return p;
     }
 }
