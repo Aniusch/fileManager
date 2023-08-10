@@ -22,19 +22,18 @@ Node* createNode(char* name, Type type){
     return p;
 }
 
-void showPath(Node *root){
-    Node *aux = root;
-    Stack *temp;
+void showPath(List *s){
+    Folder *aux;
     printf("-");
-    do{
-        if(aux->child){
-            if(aux != root) printf("%s-",aux->name);
-            aux = aux->child;
-        }
-        else if(aux->next){
+    if(!isEmpty(s)){
+        aux = s->bottom;
+        aux = aux->next; // skip root
+        while(aux != NULL){
+            printf("%s-",aux->p->name);
             aux = aux->next;
+
         }
-    }while(aux && (aux->child || aux->next));
+    }
     printf(">");
     
 }
@@ -44,23 +43,23 @@ Node* insertNode(Node* p, char* name, Type type){
     Node* temp;
     if(!p){
         return createNode(name,type);
-    } else {
-        if(p->type == fdr){
-            p->child = insertNode(p->child,name,type);
+    } else if(p->child){
+        aux = p->child;
+        while(aux->next != NULL && aux->next->name[0] < name[0]){
+            aux = aux->next;
+        }
+        if(aux->next){
+            temp = aux->next;
+            aux->next = createNode(name,type);
+            aux->next->next = temp;
+            return p;
+            
+        } else {
+            aux->next = createNode(name,type);
             return p;
         }
-        else{
-            while(aux->next != NULL && aux->next->name[0] < name[0]){
-            aux = aux->next;
-            }
-            if(aux->next){
-                temp = aux->next;
-                aux->next = createNode(name,type);
-                aux->next->next = temp;
-            }
-            else {aux->next = createNode(name,type);}
-        }
-            
+    }else {
+        p->child = createNode(name,type);
         return p;
     }
 }
@@ -131,35 +130,52 @@ Node* changeFolder(Node* root, char* name){
     return root;
 }
 
-void initializeStack(Stack *s){
+void initializeList(List *s){
     s->top = NULL;
+    s->bottom = NULL;
 }
 
-int isEmpty(Stack *s){
-    return s->top == NULL;
+int isEmpty(List *s){
+    return s->bottom == NULL;
 }
 
-void push(Stack *s, Node *p){
+void push(List *s, Node *p){
     Folder *aux = (Folder*)malloc(sizeof(Folder));
     aux->p = p;
-    aux->next = s->top;
-    s->top = aux;
-}
-
-void folderOut(Stack *s){
-    if(!isEmpty(s)){
-        Folder *aux = s->top;
-        s->top = s->top->next;
-        free(aux);
+    aux->next = NULL;
+    if(isEmpty(s)){
+        s->top = aux;
+        s->bottom = aux;
+    } else {
+        s->top->next = aux;
+        aux->prev = s->top;
+        s->top = aux;
     }
 }
-void folderIn(Stack *s, char* name){
-    Node* aux = s->top->p;
-    while(aux && aux->next != NULL){
-        if(strcmp(aux->name,name) == 0 && aux->type == fdr){
-            push(s,aux);
-            break;
+
+void folderOut(List *s){
+    Folder *aux, *temp;
+    if(!isEmpty(s)){
+        aux = s->top;
+        s->top = s->top->prev;
+        if(s->top){
+            s->top->next = NULL;
+        } else {
+            s->bottom = NULL;
         }
-        aux = aux->next;
+        free(aux);   
+    }
+}
+void folderIn(List *s, char* name){
+    Node *aux;
+    if(!isEmpty(s)){
+        aux = s->top->p;
+        aux = aux->child;
+        while(aux != NULL && strcmp(aux->name,name) != 0){
+            aux = aux->next;
+        }
+        if(aux){
+            push(s,aux);
+        }
     }
 }

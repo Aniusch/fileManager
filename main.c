@@ -11,41 +11,42 @@
 int main(){
     char buffer[MAX_INPUT_SIZE], cmd[CMD_SIZE], par[PAR_SIZE];
     Node *root = NULL;
-    Stack *folders = (Stack*)malloc(sizeof(Stack));
-    initializeStack(folders);
+    List *foldersPath = (List*)malloc(sizeof(List));
+    initializeList(foldersPath);
     root = insertNode(root,"raiz",fdr);
-    push(folders,root);
+    push(foldersPath,root);
+
     do{
-        showPath(root);
+        showPath(foldersPath);
         fflush(stdin);
         fgets(buffer,sizeof(buffer),stdin);
         copyStr(cmd,buffer,0,CMD_SIZE-1);
         copyStr(par,buffer,CMD_SIZE,MAX_INPUT_SIZE-1);   
 
         if(strcmp(cmd,"ls") == 0){
-            listNodes(folders->top->p);
+            listNodes(foldersPath->top->p);
         } else if(strcmp(cmd,"ma") == 0){
-            folders->top->p = insertNode(folders->top->p,par,fl);
+            foldersPath->top->p = insertNode(foldersPath->top->p,par,fl);
         } else if(strcmp(cmd,"mp") == 0){
-            folders->top->p = insertNode(folders->top->p,par,fdr);
+            foldersPath->top->p = insertNode(foldersPath->top->p,par,fdr);
         } else if(strcmp(cmd,"cd") == 0){
             if(strcmp(par,"..") == 0){
-                folderOut(folders);
+                folderOut(foldersPath);
             } else {
-                folderIn(folders,par);
+                folderIn(foldersPath,par);
             }
         } else if(strcmp(cmd,"rm") == 0){
-            folders->top->p = removeNode(folders->top->p,par);
+            foldersPath->top->p = removeNode(foldersPath->top->p,par);
         }
 
     } while (strcmp(cmd,"ex") != 0);
 
-    while (folders->top != NULL) {
-    Folder *temp = folders->top;
-    folders->top = folders->top->next;
+    while (foldersPath->top != NULL) {
+    Folder *temp = foldersPath->top;
+    foldersPath->top = foldersPath->top->next;
     free(temp);
     }
-    free(folders);
+    free(foldersPath);
 
     return 0;
 }

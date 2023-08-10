@@ -14,10 +14,12 @@ typedef struct node{
 typedef struct folder{
     struct node *p;
     struct folder *next;
+    struct folder *prev;
 } Folder;
 
-typedef struct stack{
+typedef struct list{
     struct folder *top;
-} Stack;
+    struct folder *bottom;
+} List;
 
 #endif
