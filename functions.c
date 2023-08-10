@@ -29,7 +29,7 @@ void showPath(Node *root){
         if(aux->child){
             printf("%s-",aux->name);
             aux = aux->child;
-        } else if(aux->type == file){
+        } else if(aux->type == fl){
             printf("%s-",aux->name);
             aux = aux->next;
         } else if(aux->next){
@@ -69,7 +69,7 @@ Node *removeNode(Node *p, char *name){
             aux = aux->next;
         }
         if(aux->next){
-            if(aux->next->type == folder){
+            if(aux->next->type == fdr){
                 temp = aux->next;
                 aux->next = aux->next->next;
                 temp = removeFolder(temp->child);
@@ -89,7 +89,7 @@ Node* removeFolder(Node* folder){
     Node* aux = folder;
     Node* temp;
     while(aux){
-        if(aux->type == folder && aux->child){
+        if(aux->type == fdr && aux->child){
             aux->child = removeFolder(aux->child);
         }
         temp = aux;
@@ -100,9 +100,12 @@ Node* removeFolder(Node* folder){
 }
 
 void listNodes(Node* p){
-    Node* aux = p;
+    Node* aux = NULL;
+    if(p->child){
+        aux = p->child;
+    }
     while(aux){
-        if(aux->type == folder){
+        if(aux->type == fdr){
             printf("%s-\n",aux->name);
         } else {
             printf("%s\n",aux->name);
@@ -147,7 +150,7 @@ void folderOut(Stack *s){
 void folderIn(Stack *s, char* name){
     Node* aux = s->top->p;
     while(aux && aux->next != NULL){
-        if(strcmp(aux->name,name) == 0 && aux->type == folder){
+        if(strcmp(aux->name,name) == 0 && aux->type == fdr){
             push(s,aux);
             break;
         }

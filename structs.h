@@ -1,8 +1,8 @@
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
-typedef enum type{   folder = 1,
-                file} Type;
+typedef enum type{   fdr = 1,
+                fl} Type;
 
 typedef struct node{
     char* name;

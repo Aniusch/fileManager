@@ -13,8 +13,9 @@ int main(){
     Node *root = NULL;
     Stack *folders = (Stack*)malloc(sizeof(Stack));
     initializeStack(folders);
-    root = insertNode(root,"raiz",folder);
-
+    root = insertNode(root,"raiz",fdr);
+    push(folders,root);
+    
     do{
         showPath(root);
         fflush(stdin);
@@ -25,9 +26,9 @@ int main(){
         if(strcmp(cmd,"ls") == 0){
             listNodes(folders->top->p);
         } else if(strcmp(cmd,"ma") == 0){
-            folders->top->p = insertNode(folders->top->p,par,file);
+            folders->top->p = insertNode(folders->top->p,par,fl);
         } else if(strcmp(cmd,"mp") == 0){
-            folders->top->p = insertNode(folders->top->p,par,folder);
+            folders->top->p = insertNode(folders->top->p,par,fdr);
         } else if(strcmp(cmd,"cd") == 0){
             if(strcmp(par,"..") == 0){
                 folderOut(folders);
@@ -41,7 +42,7 @@ int main(){
     } while (strcmp(cmd,"ex") != 0);
 
     while (folders->top != NULL) {
-    Stack *temp = folders->top;
+    Folder *temp = folders->top;
     folders->top = folders->top->next;
     free(temp);
     }
