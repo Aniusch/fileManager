@@ -1,4 +1,4 @@
-#File Manager Simulation Project
+# File Manager Simulation Project
 
 This project involves the creation of a file management system simulation in a terminal environment.
 The system uses a tree data structure to manage files and folders.
