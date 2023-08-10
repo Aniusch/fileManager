@@ -1,6 +1,6 @@
 #File Manager Simulation Project
 
-This project, named "Trabalho Prático 1 – Gerenciador de arquivos," involves the creation of a file management system simulation in a terminal environment. The system uses a tree data structure to manage files and folders. The program includes the following functionalities:
+This project involves the creation of a file management system simulation in a terminal environment. The system uses a tree data structure to manage files and folders. The program includes the following functionalities:
 
     Display Current Folder Path
         Before executing any command, the current folder path is displayed.
