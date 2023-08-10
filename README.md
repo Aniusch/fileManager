@@ -1,5 +1,9 @@
 # File Manager Simulation Project
 
+## Compile and run
+### gcc main.c functions.c -o main
+### ./main
+
 This project involves the creation of a file management system simulation in a terminal environment.
 The system uses a tree data structure to manage files and folders.
 The program includes the following functionalities:
