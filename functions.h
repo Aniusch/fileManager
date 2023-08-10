@@ -4,6 +4,8 @@
 
 void copyStr(char dest[], char src[], int start, int end);
 Node* createNode(char* name, Type type);
-void showPath(Node* raiz);
+Node* insertNode(Node* root, char* name, Type type);
+void listNodes(Node* root);
+void showPath(Node* root);
 
 #endif

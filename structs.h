@@ -1,4 +1,3 @@
-#include <stdio.h>
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
 
@@ -11,5 +10,14 @@ typedef struct node{
     struct node *next;
     struct node *child;
 } Node;
+
+typedef struct folder{
+    struct node *p;
+    struct folder *next;
+} Folder;
+
+typedef struct stack{
+    struct folder *top;
+} Stack;
 
 #endif

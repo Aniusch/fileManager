@@ -1,7 +1,7 @@
 #include "functions.h"
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 void copyStr(char dest[], char src[], int start, int end){
     int i = 0, tam = strlen(src);
@@ -22,10 +22,10 @@ Node* createNode(char* name, Type type){
     return p;
 }
 
-void showPath(Node *raiz){
-    Node *aux = raiz;
+void showPath(Node *root){
+    Node *aux = root;
     printf("-");
-    while(aux->next || aux->child){
+    while(root && (aux->next != NULL || aux->child != NULL)){
         if(aux->child){
             printf("%s-",aux->name);
             aux = aux->child;
@@ -37,4 +37,80 @@ void showPath(Node *raiz){
         }
     }
     printf(">");
+}
+
+Node* insertNode(Node* p, char* name, Type type){
+    Node* aux = p;
+    Node* temp;
+    if(!p){
+        return createNode(name,type);
+    } else {
+        while(aux->next != NULL && aux->next->name[0] < name[0]){
+            aux = aux->next;
+        }
+        if(aux->next){
+            temp = aux->next;
+            aux->next = createNode(name,type);
+            aux->next->next = temp;
+        }
+        else {aux->next = createNode(name,type);}
+        
+        return p;
+    }
+}
+
+void listNodes(Node* p){
+    Node* aux = p;
+    while(aux){
+        if(aux->type == folder){
+            printf("%s-\n",aux->name);
+        } else {
+            printf("%s\n",aux->name);
+        }
+        aux = aux->next;
+    }
+}
+
+Node* changeFolder(Node* root, char* name){
+    Node* aux = root;
+    while(aux){
+        if(strcmp(aux->name,name) == 0){
+            return aux;
+        }
+        aux = aux->next;
+    }
+    return root;
+}
+
+void initializeStack(Stack *s){
+    s->top = NULL;
+}
+
+int isEmpty(Stack *s){
+    return s->top == NULL;
+}
+
+void push(Stack *s, Node *p){
+    Folder *aux = (Folder*)malloc(sizeof(Folder));
+    aux->p = p;
+    aux->next = s->top;
+    s->top = aux;
+}
+
+Node* folderOut(Stack *s){
+    Folder *temp;
+    if(isEmpty(s)){
+        return NULL;
+    } else {
+        
+        Folder *aux = s->top;
+        s->top = s->top->next;
+        temp = aux;
+        free(aux);
+        return temp->p;
+    }
+}
+Node* folderIn(Stack *s, Node *p){
+    push(s,p);
+    return p;
 }
