@@ -6,7 +6,9 @@
 
 int main(){
     char buffer[15], cmd[3], par[11];
-    Node *root = NULL, *currentFolder = NULL;
+    Node *root = NULL;
+    Stack *folders = (Stack*)malloc(sizeof(Stack));
+    initializeStack(folders);
 
     do{
         showPath(root);
@@ -16,17 +18,29 @@ int main(){
         copyStr(par,buffer,3,14);   
 
         if(strcmp(cmd,"ls") == 0){
-            listNodes(currentFolder);
+            listNodes(folders->top->p);
         } else if(strcmp(cmd,"ma") == 0){
-            *currentFolder = *insertNode(currentFolder,par,file);
+            folders->top->p = insertNode(folders->top->p,par,file);
         } else if(strcmp(cmd,"mp") == 0){
-            *currentFolder = *insertNode(currentFolder,par,folder);
+            folders->top->p = insertNode(folders->top->p,par,folder);
         } else if(strcmp(cmd,"cd") == 0){
-            
+            if(strcmp(par,"..") == 0){
+                pop(folders);
+            } else {
+                folders->top = push(folders->top,par);
+            }
         } else if(strcmp(cmd,"rm") == 0){
 
         }
 
     } while (strcmp(cmd,"ex") != 0);
+
+    while (folders->top != NULL) {
+    struct Node *temp = folders->top;
+    folders->top = folders->top->next;
+    free(temp);
+    }
+    free(folders);
+
     return 0;
 }
