@@ -89,7 +89,7 @@ Node* removeFolder(Node* folder){
     Node* aux = folder;
     Node* temp;
     while(aux){
-        if(aux->type == folder){
+        if(aux->type == folder && aux->child){
             aux->child = removeFolder(aux->child);
         }
         temp = aux;

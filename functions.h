@@ -10,6 +10,9 @@ void showPath(Node* root);
 Node* changeFolder(Node* root, char* name);
 void initializeStack(Stack *s);
 void push(Stack *s, Node *p);
-void folderOut(Stack *s)
-void folderIn(Stack *s, char* name)
+void folderOut(Stack *s);
+void folderIn(Stack *s, char* name);
+Node *removeNode(Node *p, char *name);
+Node* removeFolder(Node* folder);
+int isEmpty(Stack *s);
 #endif
