@@ -59,6 +59,46 @@ Node* insertNode(Node* p, char* name, Type type){
     }
 }
 
+Node *removeNode(Node *p, char *name){
+    Node *aux = p;
+    Node *temp;
+    if(!p){
+        return NULL;
+    } else {
+        while(aux->next != NULL && strcmp(aux->next->name,name) != 0){
+            aux = aux->next;
+        }
+        if(aux->next){
+            if(aux->next->type == folder){
+                temp = aux->next;
+                aux->next = aux->next->next;
+                temp = removeFolder(temp->child);
+                free(temp);
+                
+            }
+            else{
+                temp = aux->next;
+                aux->next = aux->next->next;
+                free(temp);
+            }
+        }
+        return p;
+    }
+}
+Node* removeFolder(Node* folder){
+    Node* aux = folder;
+    Node* temp;
+    while(aux){
+        if(aux->type == folder){
+            aux->child = removeFolder(aux->child);
+        }
+        temp = aux;
+        aux = aux->next;
+        free(temp);
+    }
+    return NULL;
+}
+
 void listNodes(Node* p){
     Node* aux = p;
     while(aux){
@@ -97,20 +137,20 @@ void push(Stack *s, Node *p){
     s->top = aux;
 }
 
-Node* folderOut(Stack *s){
-    Folder *temp;
-    if(isEmpty(s)){
-        return NULL;
-    } else {
-        
+void folderOut(Stack *s){
+    if(!isEmpty(s)){
         Folder *aux = s->top;
         s->top = s->top->next;
-        temp = aux;
         free(aux);
-        return temp->p;
     }
 }
-Node* folderIn(Stack *s, Node *p){
-    push(s,p);
-    return p;
+void folderIn(Stack *s, char* name){
+    Node* aux = s->top->p;
+    while(aux && aux->next != NULL){
+        if(strcmp(aux->name,name) == 0 && aux->type == folder){
+            push(s,aux);
+            break;
+        }
+        aux = aux->next;
+    }
 }
