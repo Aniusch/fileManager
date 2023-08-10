@@ -32,7 +32,7 @@ int main(){
             if(strcmp(par,"..") == 0){
                 folderOut(folders);
             } else {
-                folderIn(folders->top,par);
+                folderIn(folders,par);
             }
         } else if(strcmp(cmd,"rm") == 0){
             folders->top->p = removeNode(folders->top->p,par);
@@ -41,7 +41,7 @@ int main(){
     } while (strcmp(cmd,"ex") != 0);
 
     while (folders->top != NULL) {
-    struct Node *temp = folders->top;
+    Stack *temp = folders->top;
     folders->top = folders->top->next;
     free(temp);
     }
