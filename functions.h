@@ -11,8 +11,8 @@ Node* changeFolder(Node* root, char* name);
 void initializeList(List *s);
 void push(List *s, Node *p);
 void folderOut(List *s);
-Node* folderIn(List *s, char* name);
-Node *removeNode(Node *p, char *name);
+void folderIn(List *s, char* name);
+Node* insertNode(Node* p, char* name, Type type);
 Node* removeFolder(Node* folder);
 int isEmpty(List *s);
 #endif

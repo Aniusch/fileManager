@@ -37,44 +37,44 @@ void showPath(List *s){
     printf(">");
     
 }
-
 Node* insertNode(Node* p, char* name, Type type){
     Node* aux = p;
     Node* temp;
-    if(!p){
-        return createNode(name,type);
-    } else if(p->child){
+
+    if (!p) {
+        return createNode(name, type);
+    } else if (p->child) {
         aux = p->child;
-        if(aux->name[0] > name[0]){
-            temp = aux;
-            p->child = createNode(name,type);
+        
+        int compareResult = strncmp(aux->name, name, 1);
+        if (compareResult > 0) {
+            temp = p->child;
+            p->child = createNode(name, type);
             p->child->next = temp;
             return p;
         }
-        
-        while(aux->next != NULL && aux->next->name[0] > name[0]){
+        while (aux->next != NULL) {
+            compareResult = strncmp(aux->next->name, name, 1);
+            if (compareResult > 0) {
+                break; // found the place to insert
+            }
             aux = aux->next;
         }
-        if(aux->next){
-            temp = aux->next;
-            aux->next = createNode(name,type);
-            aux->next->next = temp;
-            return p;
-            
-        } else {
-            aux->next = createNode(name,type);
-            return p;
-        }
-    }else {
-        p->child = createNode(name,type);
+        temp = aux->next;
+        aux->next = createNode(name, type);
+        aux->next->next = temp;
+        return p;
+    } else {
+        p->child = createNode(name, type);
         return p;
     }
 }
 Node *removeNode(Node *p, char *name){
     Node *aux = p->child;
     Node *temp;
-    if(!p){
-        return NULL;
+    if(!aux){
+        printf("not found\n");
+        return p;
     } else {
         while(aux->next != NULL && strcmp(aux->next->name,name) != 0){
             aux = aux->next;
@@ -87,11 +87,15 @@ Node *removeNode(Node *p, char *name){
                 free(temp);
                 
             }
-            else{
+            else if(strcmp(aux->next->name,name) == 0){
                 temp = aux->next;
                 aux->next = aux->next->next;
                 free(temp);
             }
+            
+        }
+        else {
+            printf("not found\n");
         }
         return p;
     }
@@ -175,18 +179,15 @@ void folderOut(List *s){
 //TODO: verificar se o nome existe
 //TODO: verificar se o nome é de um folder
 
-//fix it
-Node* folderIn(List *s, char* name){
-    Node *aux;
+void folderIn(List *s, char* name){
+    Node *aux = NULL;
     if(!isEmpty(s)){
-        aux = s->top->p;
-        aux = aux->child;
+        aux = s->top->p->child; 
         while(aux != NULL && strcmp(aux->name,name) != 0){
             aux = aux->next;
         }
         if(aux){
             push(s,aux);
         }
-        return aux;
     }
 }
