@@ -176,7 +176,7 @@ void folderOut(List *s){
 //TODO: verificar se o nome é de um folder
 
 //fix it
-void folderIn(List *s, char* name){
+Node* folderIn(List *s, char* name){
     Node *aux;
     if(!isEmpty(s)){
         aux = s->top->p;
@@ -187,5 +187,6 @@ void folderIn(List *s, char* name){
         if(aux){
             push(s,aux);
         }
+        return aux;
     }
 }

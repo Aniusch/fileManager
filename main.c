@@ -33,7 +33,7 @@ int main(){
             if(strcmp(par,"..") == 0){
                 folderOut(foldersPath);
             } else {
-                folderIn(foldersPath,par);
+                foldersPath->top->p = folderIn(foldersPath,par);
             }
         } else if(strcmp(cmd,"rm") == 0){
             foldersPath->top->p = removeNode(foldersPath->top->p,par);
@@ -50,5 +50,3 @@ int main(){
 
     return 0;
 }
-
-// fix remove node
