@@ -70,9 +70,8 @@ Node* insertNode(Node* p, char* name, Type type){
         return p;
     }
 }
-
 Node *removeNode(Node *p, char *name){
-    Node *aux = p;
+    Node *aux = p->child;
     Node *temp;
     if(!p){
         return NULL;
