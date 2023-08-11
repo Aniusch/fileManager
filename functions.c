@@ -45,7 +45,7 @@ Node* insertNode(Node* p, char* name, Type type){
         return createNode(name,type);
     } else if(p->child){
         aux = p->child;
-        if(aux->name[0] < name[0]){
+        if(aux->name[0] > name[0]){
             temp = aux;
             p->child = createNode(name,type);
             p->child->next = temp;
