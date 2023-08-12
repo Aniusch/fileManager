@@ -176,8 +176,6 @@ void folderOut(List *s){
         free(aux);   
     }
 }
-//TODO: verificar se o nome existe
-//TODO: verificar se o nome é de um folder
 
 void folderIn(List *s, char* name){
     Node *aux = NULL;
@@ -186,8 +184,11 @@ void folderIn(List *s, char* name){
         while(aux != NULL && strcmp(aux->name,name) != 0){
             aux = aux->next;
         }
-        if(aux){
+        if(aux && aux->type == fdr){
             push(s,aux);
+        }
+        else{
+            printf("folder not found\n");
         }
     }
 }
